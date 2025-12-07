@@ -12,7 +12,7 @@
     <Company>YourCompany</Company>
     <Description>Standardized API response envelope for ASP.NET Core minimal APIs.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/chandru415/envelope</RepositoryUrl>
+    <RepositoryUrl>https://github.com/chandru415/Slck.Envelope</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
