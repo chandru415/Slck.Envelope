@@ -1,3 +1,19 @@
+<p align="center">
+ <h2 align="center">Slck.Envelope</h2>
+ <p align="center">A lightweight, opinionated library for ASP.NET Core minimal APIs that standardizes your response body <br/>
+ It provides a consistent envelope (`ApiResponse<T>`), `IResult` wrappers for common HTTP status codes, and middleware to catch unhandled exceptions.</p>
+ <br/>
+ <p align="center">
+ <img src="https://img.shields.io/github/stars/chandru415/Slck.Envelope?style=for-the-badge" />
+ <img src="https://img.shields.io/github/watchers/chandru415/Slck.Envelope?style=for-the-badge" />
+  <a href="https://www.nuget.org/packages/Slck.Envelope/">
+   <img src="https://img.shields.io/nuget/dt/Slck.Envelope?style=for-the-badge" />
+ </a>
+ </p>
+</p>
+<br/>
+
+
 
 # :flashlight: Slck.Envelope
 

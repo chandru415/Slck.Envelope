@@ -1,23 +1,45 @@
-# Slck.Envelope
+# :flashlight: Slck.Envelope
 
-**Slck.Envelope** is a lightweight, opinionated library for ASP.NET Core minimal APIs that standardizes your response body.  
-It provides a consistent envelope (`ApiResponse<T>`), `IResult` wrappers for common HTTP status codes, and middleware to catch unhandled exceptions.
-
----
-
-## ? Features
-
-- **Consistent response shape**: Every endpoint returns `ApiResponse<T>` with `success`, `data`, `error`, and optional `meta`.
-- **Minimal API integration**: Use `Envelope.Ok(...)`, `Envelope.NotFound(...)`, etc. directly in your handlers.
-- **Middleware support**: Automatically wraps unhandled exceptions into a standardized error envelope.
-- **Pagination metadata**: Built?in `PaginationMeta` for list endpoints.
-- **Developer friendly**: Simple factories, extension helpers, and JSON options (camelCase, ignore nulls).
+**Slck.Envelope** is a lightweight, opinionated library for ASP.NET Core minimal APIs that standardizes API responses into a consistent envelope format. It provides a structured way to handle success responses, errors, and metadata across your entire API.
 
 ---
 
-## ?? Installation
+## ✨ Features
 
-Add the package from NuGet (or your local feed):
+- **Consistent Response Shape**: Every endpoint returns `ApiResponse<T>` with standardized properties:
+  - `success`: Boolean indicating request status
+  - `data`: The response payload (null on error)
+  - `error`: Error details (null on success)
+  - `meta`: Optional metadata (pagination, timestamps, etc.)
+
+- **Minimal API Integration**: Seamless integration with ASP.NET Core minimal APIs using `IResult` implementations:
+  - `Envelope.Ok(data, message)`: 200 OK responses
+  - `Envelope.Created(data, uri)`: 201 Created responses
+  - `Envelope.NotFound(message)`: 404 Not Found responses
+  - `Envelope.BadRequest(message, errors)`: 400 Bad Request with validation errors
+  - `Envelope.Unauthorized(message)`: 401 Unauthorized responses
+  - `Envelope.InternalServerError(message)`: 500 Internal Server Error
+
+- **Exception Handling Middleware**: Automatic wrapping of unhandled exceptions into standardized error envelopes.
+
+- **Pagination Support**: Built-in `PaginationMeta` for paginated list endpoints with:
+  - Page number
+  - Page size
+  - Total items
+  - Total pages
+  - Navigation links
+
+- **Developer Experience**:
+  - CamelCase JSON serialization
+  - Ignore null properties
+  - Extension methods for common scenarios
+  - Type-safe response factories
+
+---
+
+## 📦 Installation
+
+Install via NuGet Package Manager:
 
 ```bash
 dotnet add package Slck.Envelope
