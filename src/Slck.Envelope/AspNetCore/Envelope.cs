@@ -1,6 +1,4 @@
-﻿
-
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Slck.Envelope.Contracts;
 
 namespace Slck.Envelope.AspNetCore

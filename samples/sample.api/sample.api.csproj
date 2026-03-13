@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -12,10 +12,25 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Core CQRS package with automatic OTEL + Serilog -->
     <ProjectReference Include="..\..\src\Slck.Envelope\Slck.Envelope.csproj" />
+    
+    <!-- Decorator pattern for wrapping any class/method -->
+    <ProjectReference Include="..\..\src\Slck.Envelope.Decorators\Slck.Envelope.Decorators.csproj" />
+    
+    <!-- MediatR integration with automatic OTEL + Serilog -->
+    <ProjectReference Include="..\..\src\Slck.Envelope.MediatR\Slck.Envelope.MediatR.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="MediatR\Behaviors\" />
+    <Folder Include="MediatR\Validators\" />
+    <Folder Include="Minimal\" />
+    <Folder Include="Modern\Commands\" />
   </ItemGroup>
 
 </Project>

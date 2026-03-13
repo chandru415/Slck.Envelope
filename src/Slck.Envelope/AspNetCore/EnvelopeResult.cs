@@ -31,15 +31,8 @@ public sealed class EnvelopeResult<T> : IResult
             return;
         }
 
-        // 🔑 Stamp request ID if missing
-        var enriched = _payload with
-        {
-            RequestId = _payload.RequestId ?? httpContext.TraceIdentifier,
-            Timestamp = DateTimeOffset.UtcNow
-        };
-
         httpContext.Response.ContentType = "application/json; charset=utf-8";
-        await JsonSerializer.SerializeAsync(httpContext.Response.Body, enriched, JsonSerializerOptionsProvider.Default, httpContext.RequestAborted)
+        await JsonSerializer.SerializeAsync(httpContext.Response.Body, _payload, JsonSerializerOptionsProvider.Default, httpContext.RequestAborted)
             .ConfigureAwait(false);
     }
 }
