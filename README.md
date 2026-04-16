@@ -21,6 +21,14 @@
 
 ---
 
+## Project Structure
+
+- `src/Slck.Envelope` - package source
+- `samples/sample.api` - active sample API in the solution
+- `tests` - place future test projects here
+
+---
+
 ## ✨ Features
 
 - **Consistent Response Shape**: Every endpoint returns `ApiResponse<T>` with standardized properties:
