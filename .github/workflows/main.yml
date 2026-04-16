@@ -21,7 +21,7 @@ jobs:
           dotnet-version: '10.0.x'
 
       - name: Restore
-        run: dotnet restore src/Slck.Envelope/Slck.Envelope.csproj
+        run: dotnet restore Slck.Envelope.sln
 
       - name: Build
         run: dotnet build src/Slck.Envelope/Slck.Envelope.csproj --configuration Release --no-restore
