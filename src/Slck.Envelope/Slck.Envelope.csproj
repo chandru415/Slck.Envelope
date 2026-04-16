@@ -5,7 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>Slck.Envelope</PackageId>
-    <Version>1.2.0</Version>
+    <!-- Version is set by the git tag at pack time via -p:Version in CI.
+         The 0.0.0 default only applies to local development builds. -->
+    <Version>0.0.0</Version>
     <Authors>Chandrasekhar A</Authors>
     <Company>YourCompany</Company>
     <Description>Standardized API response envelope for ASP.NET Core Minimal APIs and MVC. Consistent ApiResponse&lt;T&gt; shape, exception mapping, correlation ID propagation, pagination, and MVC action filter — zero extra dependencies.</Description>
