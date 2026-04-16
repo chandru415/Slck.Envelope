@@ -36,6 +36,42 @@ dotnet add package Slck.Envelope
 
 Targets **net9.0** and depends only on `Microsoft.AspNetCore.App` (no extra NuGet packages).
 
+## Visual Overview
+
+This diagram maps the main package pieces and how they contribute to a single response format.
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {
+  'primaryColor': '#fef08a',
+  'primaryTextColor': '#1f2937',
+  'primaryBorderColor': '#ca8a04',
+  'lineColor': '#f8fafc',
+  'secondaryColor': '#bae6fd',
+  'tertiaryColor': '#fbcfe8',
+  'background': '#fffdfa'
+}}}%%
+flowchart TD
+    Package["Slck.Envelope Package"]
+    Package --> Models["ApiResponse / ApiError / PaginationMeta"]
+    Package --> Helpers["Envelope Static Helpers"]
+    Package --> Filter["AddEnvelopeFilter()"]
+    Package --> Middleware["UseApiEnvelope()"]
+    Package --> Extensions["ToResult() Extensions"]
+    Models --> Output["Consistent JSON Output"]
+    Helpers --> Output
+    Filter --> Output
+    Middleware --> Output
+    Extensions --> Output
+
+    classDef gold fill:#fef08a,stroke:#ca8a04,color:#1f2937,stroke-width:2px;
+    classDef sky fill:#bae6fd,stroke:#0284c7,color:#082f49,stroke-width:2px;
+    classDef pink fill:#fbcfe8,stroke:#db2777,color:#500724,stroke-width:2px;
+    linkStyle default stroke:#f8fafc,stroke-width:3px;
+    class Package,Output gold;
+    class Models,Helpers,Extensions sky;
+    class Filter,Middleware pink;
+```
+
 ---
 
 ## 🚀 Quick Start

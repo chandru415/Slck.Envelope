@@ -48,6 +48,42 @@
 dotnet add package Slck.Envelope
 ```
 
+## Visual Overview
+
+This diagram shows how `Slck.Envelope` keeps both success and failure responses on the same contract.
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {
+  'primaryColor': '#ffe082',
+  'primaryTextColor': '#1f2937',
+  'primaryBorderColor': '#f59e0b',
+  'lineColor': '#f8fafc',
+  'secondaryColor': '#bfdbfe',
+  'tertiaryColor': '#fecdd3',
+  'background': '#fffdf7'
+}}}%%
+flowchart LR
+    Client["Client App"] --> Endpoint["Minimal API or MVC Endpoint"]
+    Endpoint --> Helpers["Envelope Helpers<br/>Ok / Created / Accepted"]
+    Endpoint --> Skip["[SkipEnvelope]"]
+    Endpoint --> Exceptions["Unhandled Exception"]
+    Helpers --> Response["ApiResponse&lt;T&gt; JSON"]
+    Exceptions --> Middleware["UseApiEnvelope Middleware"]
+    Middleware --> Response
+    Response --> Meta["requestId + timestamp + meta"]
+
+    classDef warm fill:#ffe082,stroke:#f59e0b,color:#1f2937,stroke-width:2px;
+    classDef cool fill:#bfdbfe,stroke:#2563eb,color:#0f172a,stroke-width:2px;
+    classDef rose fill:#fecdd3,stroke:#e11d48,color:#111827,stroke-width:2px;
+    classDef mint fill:#bbf7d0,stroke:#16a34a,color:#14532d,stroke-width:2px;
+    linkStyle default stroke:#f8fafc,stroke-width:3px;
+
+    class Client,Endpoint,Response warm;
+    class Helpers,Meta cool;
+    class Middleware,Exceptions rose;
+    class Skip mint;
+```
+
 ---
 
 ## 🚀 Quick Start
