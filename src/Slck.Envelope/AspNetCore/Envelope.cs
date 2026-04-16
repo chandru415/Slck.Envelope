@@ -17,6 +17,14 @@ namespace Slck.Envelope.AspNetCore
         public static IResult NoContent() =>
             new EnvelopeResult<object>(ApiResponse<object>.NoContent(), StatusCodes.Status204NoContent);
 
+        /// <summary>
+        /// 202 Accepted — the request has been accepted for async processing.
+        /// The optional <paramref name="statusUrl"/> is written as the <c>Location</c> header
+        /// so the client knows where to poll for the result.
+        /// </summary>
+        public static IResult Accepted<T>(T data, string? statusUrl = null) =>
+            new EnvelopeResult<T>(ApiResponse<T>.Ok(data), StatusCodes.Status202Accepted, statusUrl);
+
         // ❌ Client errors
         public static IResult BadRequest(string message = "Bad request", IDictionary<string, string[]?>? details = null) =>
             new EnvelopeResult<object>(ApiResponse<object>.Fail("bad_request", message, details), StatusCodes.Status400BadRequest);
@@ -45,5 +53,9 @@ namespace Slck.Envelope.AspNetCore
 
         public static IResult ServiceUnavailable(string message = "Service unavailable") =>
             new EnvelopeResult<object>(ApiResponse<object>.Fail("service_unavailable", message), StatusCodes.Status503ServiceUnavailable);
+
+        // 🔓 Escape hatch — wrap a fully constructed ApiResponse with a custom status code
+        public static IResult From<T>(ApiResponse<T> response, int statusCode) =>
+            new EnvelopeResult<T>(response, statusCode);
     }
 }

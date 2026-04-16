@@ -3,35 +3,63 @@ name: Build & Publish to NuGet
 on:
   push:
     tags:
-      - 'v*'   # e.g. v1.0.0
+      - 'v*'   # e.g. v1.2.0
 
 jobs:
-  build:
+  build-and-publish:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout code
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history needed for tag-based versioning
 
-      # Setup .NET
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'   # or 10.0.x when available
+          dotnet-version: '10.0.x'
 
-      # Restore dependencies
       - name: Restore
         run: dotnet restore src/Slck.Envelope/Slck.Envelope.csproj
 
-      # Build
       - name: Build
         run: dotnet build src/Slck.Envelope/Slck.Envelope.csproj --configuration Release --no-restore
 
-      # Pack NuGet package
-      - name: Pack
-        run: dotnet pack src/Slck.Envelope/Slck.Envelope.csproj --configuration Release --no-build -o ./artifacts
+      - name: Test (sample project smoke build)
+        run: dotnet build samples/sample.api/sample.api.csproj --configuration Release --no-restore
 
-      # Publish to NuGet
+      # Strip leading 'v' from tag (v1.2.0 → 1.2.0) and inject as package version
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+
+      - name: Pack
+        run: >
+          dotnet pack src/Slck.Envelope/Slck.Envelope.csproj
+          --configuration Release
+          --no-build
+          -p:Version=${{ steps.version.outputs.VERSION }}
+          -p:PackageReleaseNotes="See https://github.com/chandru415/Slck.Envelope/blob/main/CHANGELOG.md"
+          -o ./artifacts
+
       - name: Push to NuGet
-        run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+        run: >
+          dotnet nuget push ./artifacts/*.nupkg
+          --api-key ${{ secrets.NUGET_API_KEY }}
+          --source https://api.nuget.org/v3/index.json
+          --skip-duplicate
+
+      # Create a GitHub Release and attach the .nupkg + .snupkg as assets
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: "v${{ steps.version.outputs.VERSION }}"
+          body_path: CHANGELOG.md
+          files: |
+            ./artifacts/*.nupkg
+            ./artifacts/*.snupkg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
